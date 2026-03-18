@@ -185,16 +185,30 @@ const Tasks = (() => {
     const wrap = document.createElement('div');
     wrap.className = 'sb-group sb-group-' + size;
 
+    // Bouton de réinitialisation "À faire" — visible uniquement quand un statut est actif
+    if (currentStatus !== 'todo') {
+      const resetBtn = document.createElement('button');
+      resetBtn.className = 'sb-reset-btn';
+      resetBtn.title = 'Remettre à "À faire"';
+      resetBtn.innerHTML = '↩';
+      resetBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        onSet('todo');
+      });
+      wrap.appendChild(resetBtn);
+    }
+
     [
       { status: 'inprogress', label: 'En cours', cls: 'sb-inprogress' },
       { status: 'deferred',   label: 'Reporté',  cls: 'sb-deferred'   },
       { status: 'done',       label: 'Terminé',  cls: 'sb-done'        },
     ].forEach(({ status, label, cls }) => {
       const btn = document.createElement('button');
-      btn.className = 'sb-btn ' + cls + (currentStatus === status ? ' sb-active' : '');
+      const isActive = currentStatus === status;
+      btn.className = 'sb-btn ' + cls + (isActive ? ' sb-active' : '');
       btn.dataset.setstatus = status;
-      btn.title = currentStatus === status ? 'Cliquer pour revenir à "À faire"' : 'Définir : ' + label;
-      btn.innerHTML = '<span class="sb-dot"></span>' + label;
+      btn.title = isActive ? 'Cliquer pour revenir à "À faire"' : 'Définir : ' + label;
+      btn.innerHTML = '<span class="sb-dot"></span>' + (isActive ? '<span class="sb-check">✓</span> ' : '') + label;
       btn.addEventListener('click', e => {
         e.stopPropagation();
         const target = currentStatus === status ? 'todo' : status;
@@ -219,7 +233,7 @@ const Tasks = (() => {
     item.innerHTML =
       '<div class="task-body">' +
         '<div class="task-title-row">' +
-          '<div class="task-title' + (isCompleted ? ' task-title-done' : '') + '">' + _esc(task.title) + '</div>' +
+          '<div class="task-title' + (isCompleted ? ' task-title-done' : '') + '">' + _esc(task.title) + (task.recurrence ? ' <span class="task-recur-icon" title="Tâche récurrente">↺</span>' : '') + '</div>' +
           '<div class="task-inline-status"></div>' +
         '</div>' +
         '<div class="task-meta">' +
@@ -301,6 +315,28 @@ const Tasks = (() => {
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><label>Micro-étapes</label><button class="btn-text" id="auto-decompose-btn">⚡ Décomposer automatiquement</button></div>
         <div class="decompose-area" id="decompose-area"></div>
         <div class="decompose-add"><input type="text" class="glass-input" id="subtask-new-input" placeholder="Ajouter une étape…" /><button class="btn-secondary" id="subtask-add-btn">+</button></div>
+      </div>
+      <div class="form-group recurrence-section">
+        <label class="recurrence-toggle-label">
+          <input type="checkbox" id="new-task-recurring" />
+          <span>↺ Tâche récurrente</span>
+        </label>
+        <div class="recurrence-options hidden" id="new-recurrence-options">
+          <div class="form-row">
+            <div class="form-group"><label>Date de début</label><input type="date" class="glass-input" id="new-recur-start" /></div>
+            <div class="form-group"><label>Date de fin</label><input type="date" class="glass-input" id="new-recur-end" /></div>
+          </div>
+          <div class="form-group"><label>Fréquence</label>
+            <div class="recurrence-freq-row">
+              <label class="recur-radio"><input type="radio" name="new-recur-type" value="weekly" checked /> Hebdomadaire</label>
+              <label class="recur-radio"><input type="radio" name="new-recur-type" value="monthly" /> Mensuel</label>
+              <label class="recur-radio"><input type="radio" name="new-recur-type" value="custom" /> Tous les
+                <input type="number" class="glass-input recur-interval-input" id="new-recur-interval" value="7" min="1" max="365" />
+                jours
+              </label>
+            </div>
+          </div>
+        </div>
       </div>`, [
       { label:'Annuler', cls:'btn-secondary', action:()=>App.closeModal() },
       { label:'+ Créer la tâche', cls:'btn-primary', action:_submitCreate }
@@ -313,6 +349,7 @@ const Tasks = (() => {
         if(!title){alert('Entrez d\'abord un titre.');return;}
         _renderDecomposeList(decomposeTask(title,[]));
       });
+      _bindRecurrenceToggle('new-task-recurring','new-recurrence-options');
     },100);
   }
 
@@ -345,6 +382,28 @@ const Tasks = (() => {
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><label>Micro-étapes</label><button class="btn-text" id="edit-auto-decompose">⚡ Décomposer</button></div>
         <div class="decompose-area" id="decompose-area"></div>
         <div class="decompose-add"><input type="text" class="glass-input" id="subtask-new-input" placeholder="Ajouter une étape…" /><button class="btn-secondary" id="subtask-add-btn">+</button></div>
+      </div>
+      <div class="form-group recurrence-section">
+        <label class="recurrence-toggle-label">
+          <input type="checkbox" id="edit-task-recurring" ${task.recurrence ? 'checked' : ''} />
+          <span>↺ Tâche récurrente</span>
+        </label>
+        <div class="recurrence-options ${task.recurrence ? '' : 'hidden'}" id="edit-recurrence-options">
+          <div class="form-row">
+            <div class="form-group"><label>Date de début</label><input type="date" class="glass-input" id="edit-recur-start" value="${task.recurrence?.startDate||''}" /></div>
+            <div class="form-group"><label>Date de fin</label><input type="date" class="glass-input" id="edit-recur-end" value="${task.recurrence?.endDate||''}" /></div>
+          </div>
+          <div class="form-group"><label>Fréquence</label>
+            <div class="recurrence-freq-row">
+              <label class="recur-radio"><input type="radio" name="edit-recur-type" value="weekly" ${(!task.recurrence||task.recurrence.type==='weekly')?'checked':''} /> Hebdomadaire</label>
+              <label class="recur-radio"><input type="radio" name="edit-recur-type" value="monthly" ${task.recurrence?.type==='monthly'?'checked':''} /> Mensuel</label>
+              <label class="recur-radio"><input type="radio" name="edit-recur-type" value="custom" ${task.recurrence?.type==='custom'?'checked':''} /> Tous les
+                <input type="number" class="glass-input recur-interval-input" id="edit-recur-interval" value="${task.recurrence?.interval||7}" min="1" max="365" />
+                jours
+              </label>
+            </div>
+          </div>
+        </div>
       </div>`, [
       { label:'Annuler', cls:'btn-secondary', action:()=>App.closeModal() },
       { label:'Sauvegarder', cls:'btn-primary', action:()=>{
@@ -357,7 +416,8 @@ const Tasks = (() => {
         const desc=document.getElementById('edit-task-desc').value.trim();
         const subtasks=_readSubtasks();
         if(!title) return;
-        const changes={title,projectId:projId,status,priority,dueDate,timeEstimate:time,description:desc,subtasks};
+        const recurrence=_readRecurrence('edit');
+        const changes={title,projectId:projId,status,priority,dueDate,timeEstimate:time,description:desc,subtasks,recurrence};
         if(status==='done' && !task.completedAt) changes.completedAt=new Date().toISOString();
         if(status!=='done') changes.completedAt=null;
         update(id,changes); App.closeModal(); App.refresh();
@@ -371,6 +431,7 @@ const Tasks = (() => {
         const current=_readSubtasks();
         _renderDecomposeList([...current,...decomposeTask(title,current)]);
       });
+      _bindRecurrenceToggle('edit-task-recurring','edit-recurrence-options');
     },100);
   }
 
@@ -404,6 +465,26 @@ const Tasks = (() => {
     return items;
   }
 
+  function _bindRecurrenceToggle(checkboxId, optionsId) {
+    const chk = document.getElementById(checkboxId);
+    const opts = document.getElementById(optionsId);
+    if (!chk || !opts) return;
+    chk.addEventListener('change', () => {
+      opts.classList.toggle('hidden', !chk.checked);
+    });
+  }
+
+  function _readRecurrence(prefix) {
+    const chk = document.getElementById(prefix + '-task-recurring');
+    if (!chk?.checked) return null;
+    const startDate = document.getElementById(prefix + '-recur-start')?.value || null;
+    const endDate   = document.getElementById(prefix + '-recur-end')?.value || null;
+    const typeEl    = document.querySelector(`input[name="${prefix}-recur-type"]:checked`);
+    const type      = typeEl?.value || 'weekly';
+    const interval  = parseInt(document.getElementById(prefix + '-recur-interval')?.value) || 7;
+    return { startDate, endDate, type, interval };
+  }
+
   function _submitCreate() {
     const title=document.getElementById('new-task-title').value.trim();
     const projId=document.getElementById('new-task-project').value;
@@ -413,8 +494,9 @@ const Tasks = (() => {
     const time=parseInt(document.getElementById('new-task-time').value)||25;
     const desc=document.getElementById('new-task-desc').value.trim();
     const subtasks=_readSubtasks();
+    const recurrence=_readRecurrence('new');
     if(!title){alert('Le titre est requis.');return;}
-    create(projId,title,{status,priority,dueDate,timeEstimate:time,description:desc,subtasks});
+    create(projId,title,{status,priority,dueDate,timeEstimate:time,description:desc,subtasks,recurrence});
     App.closeModal(); App.refresh();
   }
 

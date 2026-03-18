@@ -49,16 +49,16 @@
     <div class="focus-subtask-area" id="focus-subtask-area"></div>
     <div class="timer-section">
       <div class="time-timer-ring" id="focus-timer-ring">
-        <svg class="ring-svg" viewBox="0 0 220 220">
+        <svg class="ring-svg" viewBox="0 0 180 180">
           <defs>
             <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="var(--accent)"/>
               <stop offset="100%" stop-color="var(--accent-2)"/>
             </linearGradient>
           </defs>
-          <circle class="ring-track" cx="110" cy="110" r="96"/>
-          <circle class="ring-progress" id="ring-progress" cx="110" cy="110" r="96"
-            stroke="url(#ringGrad)" stroke-dasharray="603" stroke-dashoffset="0"/>
+          <circle class="ring-track" cx="90" cy="90" r="76"/>
+          <circle class="ring-progress" id="ring-progress" cx="90" cy="90" r="76"
+            stroke="url(#ringGrad)" stroke-dasharray="478" stroke-dashoffset="0"/>
         </svg>
         <div class="ring-center">
           <div class="ring-time" id="ring-time">25:00</div>
@@ -73,6 +73,11 @@
         <button class="duration-pill active" data-min="25">25 min</button>
         <button class="duration-pill" data-min="15">15 min</button>
         <button class="duration-pill" data-min="50">50 min</button>
+        <button class="duration-pill duration-pill-custom" id="duration-custom-btn">Perso</button>
+      </div>
+      <div class="duration-custom-row hidden" id="duration-custom-row">
+        <input type="number" id="duration-custom-input" class="duration-custom-input" min="1" max="180" placeholder="min" value="30"/>
+        <button class="duration-custom-confirm btn-secondary" id="duration-custom-confirm">OK</button>
       </div>
     </div>
     <div class="focus-actions">

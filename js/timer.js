@@ -11,7 +11,7 @@ const Timer = (() => {
   let _onEnd = null;
   let _onTick = null;
 
-  const CIRCUMFERENCE = 2 * Math.PI * 88; // r=88
+  const CIRCUMFERENCE = 2 * Math.PI * 76; // r=76
 
   function init(onEnd, onTick) {
     _onEnd = onEnd;
@@ -22,19 +22,40 @@ const Timer = (() => {
   function _bindUI() {
     const startBtn  = document.getElementById('focus-start-btn');
     const resetBtn  = document.getElementById('focus-reset-btn');
-    const durationBtns = document.querySelectorAll('.duration-btn');
+    const durationPills = document.querySelectorAll('.duration-pill:not(.duration-pill-custom)');
+    const customBtn = document.getElementById('duration-custom-btn');
+    const customRow = document.getElementById('duration-custom-row');
+    const customInput = document.getElementById('duration-custom-input');
+    const customConfirm = document.getElementById('duration-custom-confirm');
 
     if (startBtn) startBtn.addEventListener('click', toggle);
     if (resetBtn) resetBtn.addEventListener('click', reset);
 
-    durationBtns.forEach(btn => {
+    durationPills.forEach(btn => {
       btn.addEventListener('click', () => {
-        durationBtns.forEach(b => b.classList.remove('active'));
+        durationPills.forEach(b => b.classList.remove('active'));
+        if (customBtn) customBtn.classList.remove('active');
+        if (customRow) customRow.classList.add('hidden');
         btn.classList.add('active');
-        const min = parseInt(btn.dataset.min);
-        setDuration(min);
+        setDuration(parseInt(btn.dataset.min));
       });
     });
+
+    if (customBtn) {
+      customBtn.addEventListener('click', () => {
+        durationPills.forEach(b => b.classList.remove('active'));
+        customBtn.classList.add('active');
+        if (customRow) customRow.classList.remove('hidden');
+        if (customInput) customInput.focus();
+      });
+    }
+
+    const _applyCustom = () => {
+      const min = parseInt(customInput?.value);
+      if (min >= 1 && min <= 180) setDuration(min);
+    };
+    if (customConfirm) customConfirm.addEventListener('click', _applyCustom);
+    if (customInput) customInput.addEventListener('keydown', e => { if (e.key === 'Enter') _applyCustom(); });
   }
 
   function setDuration(minutes) {

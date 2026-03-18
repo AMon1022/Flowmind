@@ -187,7 +187,16 @@
   content: '';
   position: absolute;
   left: 0; top: 0; bottom: 0;
-  width: 2px;
+  width: 3px;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.task-item::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 3px;
   background: transparent;
   transition: background 0.2s;
 }
@@ -350,29 +359,40 @@
   border-radius: 3px 0 0 3px;
 }
 
+.dash-task-row::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: transparent;
+  transition: background 0.2s;
+  border-radius: 0 3px 3px 0;
+}
+
 /* Couleurs par statut */
 .dash-task-row.row-todo    { border-color: rgba(255,255,255,0.07); }
 .dash-task-row.row-todo::before { background: var(--t4); }
 
 .dash-task-row.row-inprogress {
-  border-color: rgba(245,158,11,0.25);
-  background: rgba(245,158,11,0.04);
+  border-color: rgba(245,158,11,0.3);
+  background: rgba(245,158,11,0.08);
 }
 .dash-task-row.row-inprogress::before { background: var(--amber); }
+.dash-task-row.row-inprogress::after  { background: rgba(245,158,11,0.5); }
 
 .dash-task-row.row-deferred {
-  border-color: rgba(124,141,181,0.2);
-  background: rgba(124,141,181,0.04);
-  opacity: 0.65;
+  border-color: rgba(79,142,255,0.3);
+  background: rgba(79,142,255,0.10);
 }
 .dash-task-row.row-deferred::before { background: #7c8db5; }
+.dash-task-row.row-deferred::after  { background: rgba(79,142,255,0.55); }
 
 .dash-task-row.row-done {
-  border-color: rgba(0,217,166,0.18);
-  background: rgba(0,217,166,0.03);
-  opacity: 0.45;
+  border-color: rgba(0,217,166,0.3);
+  background: rgba(0,217,166,0.10);
 }
 .dash-task-row.row-done::before { background: var(--mint); }
+.dash-task-row.row-done::after  { background: rgba(0,217,166,0.6); }
 
 .dash-task-info { flex: 1; min-width: 0; }
 
@@ -388,7 +408,6 @@
 
 .dash-task-row.row-done .dash-task-title {
   text-decoration: line-through;
-  color: var(--t3);
 }
 
 .dash-task-meta {

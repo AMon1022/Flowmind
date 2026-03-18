@@ -16,9 +16,9 @@
   background: radial-gradient(ellipse at center top, #0a1428 0%, #04060d 70%);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
-  width: 500px;
-  max-width: 95vw;
-  max-height: 90vh;
+  width: 640px;
+  max-width: 96vw;
+  max-height: 94vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -66,8 +66,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 28px 24px;
+  gap: 14px;
+  padding: 20px 24px;
   width: 100%;
 }
 
@@ -117,13 +117,34 @@
 
 .focus-subtask-item.active-sub { border-color: var(--accent-border); background: var(--accent-dim); }
 .focus-subtask-item.done-sub { opacity: 0.35; }
+.focus-subtask-item:not(.done-sub):not(.active-sub):hover { background: var(--glass-bg); border-color: rgba(255,255,255,0.12); }
+
+.focus-sub-title {
+  flex: 1;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.focus-subtask-item:not(.done-sub) .focus-sub-title:hover { color: var(--accent); }
+.focus-subtask-item.active-sub .focus-sub-title { color: var(--accent); font-weight: 600; }
+
+/* Indication visuelle : cliquer sur le titre pour activer */
+.focus-subtask-item:not(.done-sub):not(.active-sub) .focus-sub-title::after {
+  content: ' ↖';
+  font-size: 0.75em;
+  opacity: 0;
+  transition: opacity 0.15s;
+  color: var(--accent);
+}
+.focus-subtask-item:not(.done-sub):not(.active-sub):hover .focus-sub-title::after {
+  opacity: 0.6;
+}
 
 /* ── TIME TIMER RING ─────────────────────────────────────────────── */
-.timer-section { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.timer-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
-.time-timer-ring { position: relative; width: 220px; height: 220px; }
+.time-timer-ring { position: relative; width: 180px; height: 180px; }
 
-.ring-svg { width: 220px; height: 220px; transform: rotate(-90deg); }
+.ring-svg { width: 180px; height: 180px; transform: rotate(-90deg); }
 
 .ring-track {
   fill: none;
@@ -150,7 +171,7 @@
 
 .ring-time {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 600;
   color: var(--text-1);
   letter-spacing: -0.03em;
@@ -210,6 +231,38 @@
 
 .duration-pill.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-border); }
 .duration-pill:hover:not(.active) { background: rgba(255,255,255,0.07); color: var(--text-2); }
+
+.duration-custom-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.duration-custom-row.hidden { display: none; }
+
+.duration-custom-input {
+  width: 68px;
+  padding: 5px 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  color: var(--text-1);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-align: center;
+}
+.duration-custom-input:focus {
+  outline: none;
+  border-color: var(--accent-border);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.duration-custom-confirm {
+  padding: 5px 14px;
+  font-size: 11px;
+  border-radius: 20px;
+}
 
 .focus-actions { display: flex; gap: 10px; }
 

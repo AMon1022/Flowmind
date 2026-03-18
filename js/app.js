@@ -6,6 +6,7 @@
 const App = (() => {
   let _state = null;
   let _focusTaskId = null;
+  let _activeFocusSubtaskId = null;
 
   // ─── INIT ──────────────────────────────────────────────────────────────
 
@@ -366,26 +367,49 @@ const App = (() => {
     const subArea = document.getElementById('focus-subtask-area');
     subArea.innerHTML = '';
     if (task.subtasks?.length) {
-      task.subtasks.forEach((sub, idx) => {
+      // Déterminer la sous-tâche active : conserver la sélection précédente si elle existe encore et n'est pas terminée
+      const existingSub = task.subtasks.find(s => s.id === _activeFocusSubtaskId && !s.completedAt);
+      if (!existingSub) {
+        const firstPending = task.subtasks.find(s => !s.completedAt);
+        _activeFocusSubtaskId = firstPending ? firstPending.id : null;
+      }
+
+      task.subtasks.forEach((sub) => {
+        const isActive = sub.id === _activeFocusSubtaskId;
         const item = document.createElement('div');
-        item.className = `focus-subtask-item ${sub.completedAt ? 'done-sub' : ''} ${idx === 0 && !sub.completedAt ? 'active-sub' : ''}`;
+        item.className = `focus-subtask-item ${sub.completedAt ? 'done-sub' : ''} ${isActive ? 'active-sub' : ''}`;
         item.innerHTML = `
-          <div class="subtask-check ${sub.completedAt ? 'checked' : ''}" data-sub="${sub.id}"></div>
-          <span>${_esc(sub.title)}</span>
+          <div class="subtask-check ${sub.completedAt ? 'checked' : ''}" data-sub="${sub.id}" title="Marquer comme terminé"></div>
+          <span class="focus-sub-title">${_esc(sub.title)}</span>
           <span style="font-size:10px;color:var(--text-muted);margin-left:auto;font-family:var(--font-mono)">${sub.estimateMin}min</span>`;
+
+        // Clic sur la checkbox → compléter la sous-tâche
         item.querySelector('[data-sub]').addEventListener('click', (e) => {
           e.stopPropagation();
           Tasks.completeSubtask(taskId, sub.id);
           saveState();
-          launchFocusMode(taskId); // Re-render
+          launchFocusMode(taskId);
         });
+
+        // Clic sur le titre ou la ligne → définir comme sous-tâche active (sauf si déjà terminée)
+        if (!sub.completedAt) {
+          item.querySelector('.focus-sub-title').addEventListener('click', (e) => {
+            e.stopPropagation();
+            _activeFocusSubtaskId = sub.id;
+            launchFocusMode(taskId);
+          });
+          item.style.cursor = 'pointer';
+        }
+
         subArea.appendChild(item);
       });
     }
 
-    // Timer duration
-    const defaultMin = Config.get('pomodoroMin') || 25;
-    Timer.setDuration(defaultMin);
+    // Timer duration — ne pas réinitialiser si le timer tourne déjà
+    if (!Timer.isRunning()) {
+      const defaultMin = Config.get('pomodoroMin') || 25;
+      Timer.setDuration(defaultMin);
+    }
 
     // Project progress
     const stats = Projects.getStats(task.projectId);
@@ -396,25 +420,22 @@ const App = (() => {
     document.getElementById('focus-overlay').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
-    // Boutons statut focus — rebuild dynamiquement
-    const focusStatusWrap = document.querySelector('.focus-status-btns');
-    if (focusStatusWrap) {
-      focusStatusWrap.innerHTML = '';
-      focusStatusWrap.appendChild(
-        Tasks.buildStatusButtons(task.status || 'todo', (newStatus) => {
-          Tasks.setStatus(_focusTaskId, newStatus);
-          App.saveState();
-          // Reconstruire les boutons avec le nouveau statut
-          focusStatusWrap.innerHTML = '';
-          focusStatusWrap.appendChild(
-            Tasks.buildStatusButtons(newStatus, () => {}, 'focus')
-          );
-          if (newStatus === 'done') setTimeout(_exitFocus, 700);
-        }, 'focus')
-      );
-    }
+    // Boutons statut focus
+    _rebuildFocusStatusBtns(task.status || 'todo');
+  }
 
-
+  function _rebuildFocusStatusBtns(currentStatus) {
+    const wrap = document.querySelector('.focus-status-btns');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    wrap.appendChild(
+      Tasks.buildStatusButtons(currentStatus, (newStatus) => {
+        Tasks.setStatus(_focusTaskId, newStatus);
+        App.saveState();
+        _rebuildFocusStatusBtns(newStatus);
+        if (newStatus === 'done') setTimeout(_exitFocus, 700);
+      }, 'focus')
+    );
   }
 
   function _exitFocus() {
@@ -422,6 +443,7 @@ const App = (() => {
     document.body.style.overflow = '';
     Timer.stop();
     _focusTaskId = null;
+    _activeFocusSubtaskId = null;
     refresh();
   }
 

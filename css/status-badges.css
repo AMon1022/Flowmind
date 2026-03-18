@@ -77,22 +77,36 @@
 }
 
 /* ── TASK ITEM — TEINTES PAR STATUT ──────────────── */
+
+/* À faire — neutre */
+
+/* En cours — bleu accent */
 .task-status-inprogress {
-  border-color: rgba(245,158,11,0.2) !important;
+  border-color: rgba(79,142,255,0.4) !important;
+  background: rgba(79,142,255,0.10) !important;
 }
-.task-status-inprogress::before { background: var(--amber) !important; }
+.task-status-inprogress::before { background: var(--accent) !important; }
+.task-status-inprogress::after  { background: rgba(79,142,255,0.5) !important; }
+.task-status-inprogress .task-title { font-weight: 700; }
 
+/* Reporté — bleu soutenu */
 .task-status-deferred {
-  opacity: 0.55;
+  border-color: rgba(79,142,255,0.35) !important;
+  background: rgba(79,142,255,0.09) !important;
 }
+.task-status-deferred::before { background: #7c8db5 !important; }
+.task-status-deferred::after  { background: rgba(79,142,255,0.55) !important; }
 
+/* Terminé — vert mint soutenu */
 .task-status-done {
-  opacity: 0.38;
+  border-color: rgba(0,217,166,0.4) !important;
+  background: rgba(0,217,166,0.10) !important;
 }
+.task-status-done::before { background: var(--mint) !important; }
+.task-status-done::after  { background: rgba(0,217,166,0.6) !important; }
 
 .task-title-done {
   text-decoration: line-through;
-  opacity: 0.6;
 }
 
 /* ── SUBTASK STATUT ──────────────────────────────── */
@@ -195,6 +209,35 @@
   transition: all 0.2s;
 }
 
+.sb-check {
+  font-size: 0.85em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Bouton réinitialisation → À faire */
+.sb-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+  font-size: 11px;
+  color: var(--t3);
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s var(--ease);
+  flex-shrink: 0;
+}
+.sb-reset-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--t1);
+  border-color: rgba(255,255,255,0.3);
+  transform: scale(1.08);
+}
+
 /* ── TAILLES ─────────────────────────────────────── */
 
 /* Normal (liste projets) */
@@ -215,39 +258,50 @@
 
 /* ── COULEURS PAR STATUT ─────────────────────────── */
 
+/* Boutons inactifs légèrement atténués pour faire ressortir l'actif */
+.sb-btn:not(.sb-active) { opacity: 0.55; }
+.sb-btn:not(.sb-active):hover { opacity: 1; }
+
 /* En cours */
 .sb-inprogress { border-color: rgba(245,158,11,0.2); }
 .sb-inprogress .sb-dot { background: var(--amber); }
-.sb-inprogress:hover,
+.sb-inprogress:hover { opacity: 1; }
 .sb-inprogress.sb-active {
+  opacity: 1;
   background: var(--amber-d);
-  border-color: rgba(245,158,11,0.45);
+  border: 2px solid rgba(245,158,11,0.7);
   color: var(--amber);
-  box-shadow: 0 0 10px rgba(245,158,11,0.12);
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(245,158,11,0.25);
 }
 .sb-inprogress.sb-active .sb-dot {
   animation: statusPulse 1.6s ease-in-out infinite;
 }
 
 /* Reporté */
-.sb-deferred { border-color: rgba(124,141,181,0.15); }
+.sb-deferred { border-color: rgba(79,142,255,0.2); }
 .sb-deferred .sb-dot { background: #7c8db5; }
-.sb-deferred:hover,
+.sb-deferred:hover { opacity: 1; }
 .sb-deferred.sb-active {
-  background: rgba(124,141,181,0.1);
-  border-color: rgba(124,141,181,0.35);
-  color: #a0b0d0;
+  opacity: 1;
+  background: rgba(79,142,255,0.18);
+  border: 2px solid rgba(79,142,255,0.65);
+  color: #a0c4ff;
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(79,142,255,0.3);
 }
 
 /* Terminé */
-.sb-done { border-color: rgba(0,217,166,0.2); }
+.sb-done { border-color: rgba(0,217,166,0.25); }
 .sb-done .sb-dot { background: var(--mint); }
-.sb-done:hover,
+.sb-done:hover { opacity: 1; }
 .sb-done.sb-active {
-  background: var(--mint-d);
-  border-color: rgba(0,217,166,0.45);
+  opacity: 1;
+  background: rgba(0,217,166,0.18);
+  border: 2px solid rgba(0,217,166,0.7);
   color: var(--mint);
-  box-shadow: 0 0 12px rgba(0,217,166,0.15);
+  font-weight: 700;
+  box-shadow: 0 0 16px rgba(0,217,166,0.35);
 }
 
 /* Focus : terminé plus marqué */
@@ -267,31 +321,25 @@
   border-color: var(--mint);
 }
 
-/* Focus : En cours actif — plus marqué */
+/* Focus : En cours actif */
 .sb-group-focus .sb-inprogress.sb-active {
   background: var(--amber-d);
-  border-color: rgba(245,158,11,0.55);
+  border: 2px solid rgba(245,158,11,0.65);
   color: var(--amber);
-  box-shadow: 0 4px 20px rgba(245,158,11,0.2);
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(245,158,11,0.25);
 }
 .sb-group-focus .sb-inprogress.sb-active .sb-dot {
   animation: statusPulse 1.6s ease-in-out infinite;
 }
 
-/* Focus : Reporté actif — plus marqué */
+/* Focus : Reporté actif */
 .sb-group-focus .sb-deferred.sb-active {
-  background: rgba(124,141,181,0.15);
-  border-color: rgba(124,141,181,0.5);
+  background: rgba(124,141,181,0.16);
+  border: 2px solid rgba(124,141,181,0.6);
   color: #c0cfe8;
-  box-shadow: 0 4px 16px rgba(124,141,181,0.15);
-}
-
-/* Focus : boutons inactifs atténués pour faire ressortir l'actif */
-.sb-group-focus .sb-btn:not(.sb-active) {
-  opacity: 0.45;
-}
-.sb-group-focus .sb-btn:not(.sb-active):hover {
-  opacity: 1;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(124,141,181,0.2);
 }
 
 /* ── TASK ITEM LAYOUT v6 ────────────────────────── */

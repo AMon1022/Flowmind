@@ -339,3 +339,58 @@
 /* ── UTILITY ────────────────────────────────────────────────────── */
 .hidden { display: none !important; }
 .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ── RÉCURRENCE ─────────────────────────────────────────────────── */
+.task-recur-icon {
+  font-size: 12px;
+  color: var(--accent);
+  opacity: 0.75;
+  vertical-align: middle;
+}
+
+.recurrence-section { margin-top: 4px; }
+
+.recurrence-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--t2);
+  font-weight: 500;
+}
+
+.recurrence-options {
+  margin-top: 12px;
+  padding: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.recurrence-options.hidden { display: none; }
+
+.recurrence-freq-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+}
+
+.recur-radio {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--t2);
+  cursor: pointer;
+}
+
+.recur-interval-input {
+  width: 52px;
+  padding: 3px 7px;
+  font-size: 12px;
+  display: inline-block;
+}

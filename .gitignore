@@ -1,3 +1,28 @@
+# VS Code
 .vscode/
+
+# Windows
+Thumbs.db
+desktop.ini
+*.lnk
+
+# macOS
+.DS_Store
+
+# Logs et temporaires
+*.log
+*.tmp
+*.bak
+
+# Binaires
 *.exe
 *.zst
+*.zip
+*.rar
+
+# Node (si jamais utilisé un jour)
+node_modules/
+npm-debug.log*
+
+# Sauvegardes locales
+*.backup.json
