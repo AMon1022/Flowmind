@@ -407,6 +407,13 @@
   box-shadow: 0 0 10px rgba(0,180,120,0.2);
 }
 
+/* ── CHANGELOG MODE CLAIR ────────────────────────── */
+[data-theme="light"] .settings-changelog {
+  background: rgba(0,0,0,0.02);
+  border-color: rgba(0,0,0,0.07);
+}
+[data-theme="light"] .settings-changelog li { color: #4a5568; }
+
 /* ── AURORA MOINS INTENSE EN MODE CLAIR ──────────── */
 [data-theme="light"] .aurora-orb { opacity: 0.08; }
 
