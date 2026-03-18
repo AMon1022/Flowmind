@@ -1,0 +1,339 @@
+/* FlowMind — StatusBadges */
+
+/* ═══════════════════════════════════════════════════
+   FLOWMIND v3 — SYSTÈME DE STATUTS
+═══════════════════════════════════════════════════ */
+
+/* ── BADGE STATUT CLIQUABLE ──────────────────────── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 7px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s var(--ease);
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: 'DM Sans', sans-serif;
+  background: none;
+}
+
+.status-badge:hover { filter: brightness(1.15); transform: scale(1.04); }
+
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+/* À faire */
+.status-todo {
+  color: var(--t3);
+  border-color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+}
+.status-todo .status-dot { background: var(--t3); }
+.status-todo:hover { border-color: rgba(255,255,255,0.2); color: var(--t2); }
+
+/* En cours */
+.status-inprogress {
+  color: var(--amber);
+  border-color: rgba(245,158,11,0.3);
+  background: var(--amber-d);
+}
+.status-inprogress .status-dot {
+  background: var(--amber);
+  box-shadow: 0 0 6px rgba(245,158,11,0.5);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+/* Reporté */
+.status-deferred {
+  color: #7c8db5;
+  border-color: rgba(124,141,181,0.25);
+  background: rgba(124,141,181,0.08);
+}
+.status-deferred .status-dot { background: #7c8db5; }
+
+/* Terminé */
+.status-done {
+  color: var(--mint);
+  border-color: rgba(0,217,166,0.3);
+  background: var(--mint-d);
+}
+.status-done .status-dot {
+  background: var(--mint);
+  box-shadow: 0 0 6px var(--success-glow);
+}
+
+@keyframes statusPulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.6; transform:scale(0.75); }
+}
+
+/* ── TASK ITEM — TEINTES PAR STATUT ──────────────── */
+.task-status-inprogress {
+  border-color: rgba(245,158,11,0.2) !important;
+}
+.task-status-inprogress::before { background: var(--amber) !important; }
+
+.task-status-deferred {
+  opacity: 0.55;
+}
+
+.task-status-done {
+  opacity: 0.38;
+}
+
+.task-title-done {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* ── SUBTASK STATUT ──────────────────────────────── */
+.subtask-status-btn {
+  width: 16px; height: 16px;
+  border-radius: 5px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s var(--ease-spring);
+  padding: 0;
+}
+
+.subtask-status-btn .status-dot {
+  width: 6px; height: 6px;
+}
+
+.subtask-status-btn.status-todo .status-dot { background: var(--t4); }
+.subtask-status-btn.status-inprogress { border-color: rgba(245,158,11,0.4); background: var(--amber-d); }
+.subtask-status-btn.status-deferred   { border-color: rgba(124,141,181,0.3); opacity: 0.5; }
+.subtask-status-btn.status-done       { border-color: rgba(0,217,166,0.4); background: var(--mint-d); }
+
+.subtask-status-btn:hover { transform: scale(1.15); }
+.subtask-done-text { text-decoration: line-through; opacity: 0.45; }
+
+/* ── LAYOUT TASK ITEM AVEC BADGE ─────────────────── */
+.task-item {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.task-status-btn-wrap {
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+/* ── LÉGENDE STATUTS (optionnel, dans les vues) ──── */
+.status-legend {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+
+.status-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--t3);
+}
+
+/* Dashboard stat En cours */
+.stat-inprogress {
+  background: var(--amber-d);
+  border: 1px solid rgba(245,158,11,0.25);
+}
+.stat-inprogress .stat-num { color: var(--amber); }
+
+/* ═══════════════════════════════════════════════════
+   FLOWMIND v6 — BOUTONS STATUT UNIFIÉS (sb-*)
+   Utilisés dans : tâches, sous-tâches, focus, dashboard
+═══════════════════════════════════════════════════ */
+
+/* Groupe wrapper */
+.sb-group {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* Bouton de base */
+.sb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s var(--ease);
+  background: rgba(255,255,255,0.04);
+  color: var(--t3);
+  white-space: nowrap;
+}
+
+.sb-btn:hover { filter: brightness(1.15); transform: scale(1.04); }
+.sb-btn:active { transform: scale(0.97); }
+
+.sb-dot {
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+/* ── TAILLES ─────────────────────────────────────── */
+
+/* Normal (liste projets) */
+.sb-group-normal .sb-btn { padding: 4px 9px; font-size: 11px; }
+.sb-group-normal .sb-dot { width: 6px; height: 6px; }
+
+/* Small (sous-tâches) */
+.sb-group-small .sb-btn { padding: 3px 7px; font-size: 10px; }
+.sb-group-small .sb-dot { width: 5px; height: 5px; }
+
+/* Tiny (mini sous-tâches) */
+.sb-group-tiny .sb-btn { padding: 2px 6px; font-size: 10px; }
+.sb-group-tiny .sb-dot { width: 5px; height: 5px; }
+
+/* Focus (overlay plein écran) */
+.sb-group-focus .sb-btn { padding: 12px 22px; font-size: 14px; }
+.sb-group-focus .sb-dot { width: 9px; height: 9px; }
+
+/* ── COULEURS PAR STATUT ─────────────────────────── */
+
+/* En cours */
+.sb-inprogress { border-color: rgba(245,158,11,0.2); }
+.sb-inprogress .sb-dot { background: var(--amber); }
+.sb-inprogress:hover,
+.sb-inprogress.sb-active {
+  background: var(--amber-d);
+  border-color: rgba(245,158,11,0.45);
+  color: var(--amber);
+  box-shadow: 0 0 10px rgba(245,158,11,0.12);
+}
+.sb-inprogress.sb-active .sb-dot {
+  animation: statusPulse 1.6s ease-in-out infinite;
+}
+
+/* Reporté */
+.sb-deferred { border-color: rgba(124,141,181,0.15); }
+.sb-deferred .sb-dot { background: #7c8db5; }
+.sb-deferred:hover,
+.sb-deferred.sb-active {
+  background: rgba(124,141,181,0.1);
+  border-color: rgba(124,141,181,0.35);
+  color: #a0b0d0;
+}
+
+/* Terminé */
+.sb-done { border-color: rgba(0,217,166,0.2); }
+.sb-done .sb-dot { background: var(--mint); }
+.sb-done:hover,
+.sb-done.sb-active {
+  background: var(--mint-d);
+  border-color: rgba(0,217,166,0.45);
+  color: var(--mint);
+  box-shadow: 0 0 12px rgba(0,217,166,0.15);
+}
+
+/* Focus : terminé plus marqué */
+.sb-group-focus .sb-done {
+  background: var(--mint-d);
+  border-color: rgba(0,217,166,0.35);
+  color: var(--mint);
+  box-shadow: 0 4px 20px rgba(0,217,166,0.15);
+}
+.sb-group-focus .sb-done:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,217,166,0.3);
+}
+.sb-group-focus .sb-done.sb-active {
+  background: linear-gradient(135deg, var(--mint), #00b88d);
+  color: #000;
+  border-color: var(--mint);
+}
+
+/* Focus : En cours actif — plus marqué */
+.sb-group-focus .sb-inprogress.sb-active {
+  background: var(--amber-d);
+  border-color: rgba(245,158,11,0.55);
+  color: var(--amber);
+  box-shadow: 0 4px 20px rgba(245,158,11,0.2);
+}
+.sb-group-focus .sb-inprogress.sb-active .sb-dot {
+  animation: statusPulse 1.6s ease-in-out infinite;
+}
+
+/* Focus : Reporté actif — plus marqué */
+.sb-group-focus .sb-deferred.sb-active {
+  background: rgba(124,141,181,0.15);
+  border-color: rgba(124,141,181,0.5);
+  color: #c0cfe8;
+  box-shadow: 0 4px 16px rgba(124,141,181,0.15);
+}
+
+/* Focus : boutons inactifs atténués pour faire ressortir l'actif */
+.sb-group-focus .sb-btn:not(.sb-active) {
+  opacity: 0.45;
+}
+.sb-group-focus .sb-btn:not(.sb-active):hover {
+  opacity: 1;
+}
+
+/* ── TASK ITEM LAYOUT v6 ────────────────────────── */
+.task-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.task-inline-status { flex-shrink: 0; }
+
+/* Supprimer l'ancien wrapper .task-status-btn-wrap */
+.task-status-btn-wrap { display: none !important; }
+
+/* ── SUBTASK LAYOUT v6 ──────────────────────────── */
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.subtask-status-btns { flex-shrink: 0; }
+
+.subtask-title {
+  flex: 1;
+  font-size: 11.5px;
+  color: var(--t2);
+  min-width: 80px;
+}
+
+.subtask-min {
+  font-size: 10px;
+  color: var(--t3);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 600px) {
+  .sb-group-normal .sb-btn { padding: 3px 7px; font-size: 10px; }
+  .sb-group-focus { flex-direction: column; width: 100%; max-width: 260px; }
+  .sb-group-focus .sb-btn { justify-content: center; }
+}

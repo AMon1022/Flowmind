@@ -1,0 +1,101 @@
+/* FlowMind — Responsive */
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .dash-today, .dash-next, .dash-projects, .dash-recent { grid-column: 1; }
+}
+
+@media (max-width: 768px) {
+  :root { --sidebar-w: 220px; }
+
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0; bottom: 0;
+    z-index: 200;
+    transition: left 0.3s var(--ease);
+  }
+
+  .sidebar.mobile-open { left: 0; }
+  .sidebar-overlay { display: block; }
+
+  .sync-grid { grid-template-columns: 1fr; }
+  .settings-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+
+  .focus-task-title { font-size: 20px; }
+  .ring-time { font-size: 32px; }
+  .btn-add-label { display: none; }
+  .btn-add-task { padding: 0 10px; }
+
+  .view { padding: 14px 16px; }
+}
+
+@media (max-width: 480px) {
+  .focus-actions { flex-direction: column; width: 100%; max-width: 300px; }
+  .btn-focus-done, .btn-focus-skip { text-align: center; justify-content: center; }
+  .focus-task-title { font-size: 17px; }
+}
+
+/* ── COMPATIBILITY & EXTRAS ─────────────────────────────────────── */
+/* btn-text alias */
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.15s;
+  font-weight: 500;
+}
+.btn-text:hover { opacity: 0.75; }
+
+/* Textarea shares glass-input styles */
+textarea.glass-input { resize: vertical; min-height: 60px; }
+
+/* Color swatch in project modal */
+.color-swatch { transition: transform 0.15s var(--ease-spring), box-shadow 0.15s; }
+.color-swatch:hover { transform: scale(1.15); box-shadow: 0 0 12px var(--accent-glow); }
+
+/* Legacy alias */
+.project-color-bar { width: 3px; height: 36px; border-radius: 3px; flex-shrink: 0; }
+
+/* Report section wrapper */
+.report-section { margin-bottom: 20px; }
+
+/* Focus subtask min label */
+.focus-subtask-item .sub-min {
+  font-size: 10px;
+  color: var(--text-3);
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Stat section header for reports */
+.stat-report-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.stat-report-pill {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  padding: 12px 20px;
+  text-align: center;
+}
+
+.stat-report-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  display: block;
+}
+
+.stat-report-lbl { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; display: block; }

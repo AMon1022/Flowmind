@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FlowMind — Focus & Flow TDA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['DM Sans','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+  <link rel="stylesheet" href="css/tokens.css"/>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/layout.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/views.css"/>
+  <link rel="stylesheet" href="css/focus-overlay.css"/>
+  <link rel="stylesheet" href="css/status-badges.css"/>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+  <link rel="stylesheet" href="css/responsive.css"/>
+  <link rel="stylesheet" href="css/light-theme.css"/>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true">
+  <div class="aurora-orb aurora-orb-1"></div>
+  <div class="aurora-orb aurora-orb-2"></div>
+  <div class="aurora-orb aurora-orb-3"></div>
+</div>
+
+<div id="reward-overlay" class="reward-overlay hidden">
+  <div class="reward-burst">
+    <div class="reward-emoji" id="reward-emoji">⚡</div>
+    <div class="reward-text" id="reward-text">Tâche accomplie !</div>
+    <div class="reward-xp" id="reward-xp">+10 XP</div>
+    <div class="reward-particles" id="reward-particles"></div>
+  </div>
+</div>
+
+<div id="focus-overlay" class="focus-overlay hidden">
+  <div class="focus-panel">
+  <div class="focus-topbar">
+    <div class="focus-mode-badge"><span class="focus-mode-dot"></span>MODE FOCUS</div>
+    <button class="glass-btn-icon" id="exit-focus-btn">✕</button>
+  </div>
+  <div class="focus-content">
+    <div class="focus-project-tag" id="focus-project-tag">Projet</div>
+    <h1 class="focus-task-title" id="focus-task-title">Titre de la tâche</h1>
+    <div class="focus-subtask-area" id="focus-subtask-area"></div>
+    <div class="timer-section">
+      <div class="time-timer-ring" id="focus-timer-ring">
+        <svg class="ring-svg" viewBox="0 0 220 220">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--accent)"/>
+              <stop offset="100%" stop-color="var(--accent-2)"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-track" cx="110" cy="110" r="96"/>
+          <circle class="ring-progress" id="ring-progress" cx="110" cy="110" r="96"
+            stroke="url(#ringGrad)" stroke-dasharray="603" stroke-dashoffset="0"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-time" id="ring-time">25:00</div>
+          <div class="ring-label" id="ring-label">Pomodoro</div>
+        </div>
+      </div>
+      <div class="timer-controls">
+        <button class="btn-timer-start" id="focus-start-btn">▶ Démarrer</button>
+        <button class="btn-timer-reset" id="focus-reset-btn">↺</button>
+      </div>
+      <div class="duration-pills">
+        <button class="duration-pill active" data-min="25">25 min</button>
+        <button class="duration-pill" data-min="15">15 min</button>
+        <button class="duration-pill" data-min="50">50 min</button>
+      </div>
+    </div>
+    <div class="focus-actions">
+      <div class="focus-status-btns">
+        <button class="focus-status-btn focus-status-inprogress" id="focus-inprogress-btn">
+          <span class="fsb-dot"></span>En cours
+        </button>
+        <button class="focus-status-btn focus-status-deferred" id="focus-deferred-btn">
+          <span class="fsb-dot"></span>Reporté
+        </button>
+        <button class="focus-status-btn focus-status-done" id="focus-done-btn">
+          <span class="fsb-dot"></span>Terminé
+        </button>
+      </div>
+      <button class="btn-focus-skip" id="focus-skip-btn">→ Tâche suivante</button>
+    </div>
+    <div class="focus-progress-section">
+      <div class="focus-progress-label">Avancement du projet</div>
+      <div class="progress-track"><div class="progress-fill" id="focus-project-progress" style="width:0%"></div></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div class="modal glass-card">
+    <div class="modal-header">
+      <h3 id="modal-title">Modal</h3>
+      <button class="glass-btn-icon" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<div class="app-shell">
+  <aside class="sidebar glass-sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">⚡</div>
+      <span class="brand-name">FlowMind</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="dashboard"><span class="nav-icon">◈</span><span class="nav-label">Tableau de bord</span></button>
+      <button class="nav-item" data-view="focus"><span class="nav-icon">◎</span><span class="nav-label">Mode Focus</span></button>
+      <button class="nav-item" data-view="projects"><span class="nav-icon">◧</span><span class="nav-label">Projets</span></button>
+      <button class="nav-item" data-view="calendar"><span class="nav-icon">◫</span><span class="nav-label">Agenda</span></button>
+      <button class="nav-item" data-view="reports"><span class="nav-icon">◱</span><span class="nav-label">Rapports</span></button>
+      <button class="nav-item" data-view="settings"><span class="nav-icon">◬</span><span class="nav-label">Paramètres</span></button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="xp-widget">
+        <div class="xp-row">
+          <span class="xp-level-badge">Niv. <span id="sidebar-level">1</span></span>
+          <span class="xp-value"><span id="sidebar-xp">0</span> XP</span>
+        </div>
+        <div class="xp-track"><div class="xp-fill" id="sidebar-xp-fill"></div></div>
+      </div>
+      <div class="streak-widget">
+        <span class="streak-fire">🔥</span>
+        <span id="sidebar-streak">0</span>
+        <span class="streak-label">jours</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar glass-topbar">
+      <button class="glass-btn-icon sidebar-toggle" id="sidebar-toggle">☰</button>
+      <div class="topbar-title" id="topbar-title">Tableau de bord</div>
+      <div class="topbar-actions">
+        <button class="btn-add-task" id="quick-add-btn">
+          <span class="btn-plus">+</span>
+          <span class="btn-add-label">Nouvelle tâche</span>
+        </button>
+        <button class="glass-btn-icon btn-focus-launch" id="launch-focus-btn">◎</button>
+        <button class="glass-btn-icon" id="feedback-btn">💬</button>
+      </div>
+    </header>
+
+    <section class="view active" id="view-dashboard">
+      <div class="dashboard-grid">
+        <div class="glass-card dash-today">
+          <div class="card-eyebrow">⏱ Aujourd'hui</div>
+          <div class="today-date" id="today-date">Chargement…</div>
+          <div class="today-stats">
+            <div class="stat-badge stat-done"><span id="stat-done" class="stat-num">0</span><span class="stat-lbl">faites</span></div>
+            <div class="stat-badge stat-inprogress"><span id="stat-inprogress" class="stat-num">0</span><span class="stat-lbl">en cours</span></div>
+            <div class="stat-badge stat-pending"><span id="stat-pending" class="stat-num">0</span><span class="stat-lbl">à faire</span></div>
+          </div>
+          <div class="progress-meta-row"><span class="progress-meta-label">Progression journée</span><span class="progress-meta-pct" id="daily-pct">0%</span></div>
+          <div class="progress-track"><div class="progress-fill progress-today" id="daily-progress" style="width:0%"></div></div>
+        </div>
+        <div class="glass-card dash-next">
+          <div class="card-header-row" style="flex-wrap:wrap;gap:8px">
+            <div class="card-eyebrow">📋 Liste des tâches</div>
+            <div class="dash-task-controls">
+              <select id="dash-task-sort" class="glass-select glass-select-sm" title="Trier par">
+                <option value="status">Tri : Statut</option>
+                <option value="priority">Tri : Priorité</option>
+                <option value="due">Tri : Échéance</option>
+                <option value="project">Tri : Projet</option>
+                <option value="created">Tri : Date création</option>
+              </select>
+              <select id="dash-task-filter" class="glass-select glass-select-sm" title="Filtrer">
+                <option value="all">Tous les statuts</option>
+                <option value="inprogress">En cours</option>
+                <option value="todo">À faire</option>
+                <option value="deferred">Reporté</option>
+                <option value="done">Terminé</option>
+              </select>
+              <select id="dash-task-count" class="glass-select glass-select-sm" title="Nombre">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+                <option value="999">Toutes</option>
+              </select>
+            </div>
+          </div>
+          <div id="next-task-display" class="next-task-display"></div>
+        </div>
+        <div class="glass-card dash-projects">
+          <div class="card-header-row">
+            <div class="card-eyebrow">◧ Projets</div>
+            <button class="btn-text-link" data-view="projects">Voir tout →</button>
+          </div>
+          <div id="projects-overview-list" class="projects-overview-list"></div>
+        </div>
+        <div class="glass-card dash-recent">
+          <div class="card-eyebrow">✓ Récemment accompli</div>
+          <div id="recent-done-list" class="recent-done-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-focus">
+      <div class="view-header">
+        <div><h1 class="view-title">Mode Focus</h1><p class="view-subtitle">Une tâche. Une session. Zéro distraction.</p></div>
+      </div>
+      <div class="focus-filter-row">
+        <span class="filter-label">Filtrer par projet</span>
+        <select id="focus-project-filter" class="glass-select"><option value="all">Tous les projets</option></select>
+      </div>
+      <div id="focus-task-list" class="focus-task-list"></div>
+    </section>
+
+    <section class="view" id="view-projects">
+      <div class="view-header">
+        <div><h1 class="view-title">Projets</h1><p class="view-subtitle">Organisez votre travail par projets distincts.</p></div>
+        <button class="btn-primary" id="new-project-btn">+ Nouveau projet</button>
+      </div>
+      <div id="projects-list" class="projects-list"></div>
+    </section>
+
+    <section class="view" id="view-calendar">
+      <div class="view-header">
+        <div><h1 class="view-title">Agenda</h1><p class="view-subtitle">Synchronisez votre calendrier Zimbra.</p></div>
+      </div>
+      <div class="sync-grid">
+        <div class="glass-card sync-card">
+          <div class="sync-card-icon-wrap">🔗</div>
+          <h3 class="sync-card-title">Sync via URL iCal</h3>
+          <p class="sync-card-desc">Entrez l'URL iCal de votre agenda Zimbra.</p>
+          <div class="input-with-btn">
+            <input type="url" id="ical-url-input" class="glass-input" placeholder="https://mail.institution.fr/…?fmt=ics"/>
+            <button class="btn-primary btn-sm" id="ical-import-btn">Importer</button>
+          </div>
+          <div class="sync-tip">💡 Zimbra : Préférences → Calendriers → Partager → Lien iCal</div>
+        </div>
+        <div class="glass-card sync-card">
+          <div class="sync-card-icon-wrap">📁</div>
+          <h3 class="sync-card-title">Importer un fichier .ics</h3>
+          <p class="sync-card-desc">Téléchargez depuis Zimbra et importez ici.</p>
+          <input type="file" id="ical-file-input" accept=".ics" class="glass-file-input"/>
+        </div>
+      </div>
+      <div id="calendar-events-list" class="calendar-events-list">
+        <div class="empty-state"><div class="empty-icon">📅</div>Aucun agenda synchronisé.</div>
+      </div>
+    </section>
+
+    <section class="view" id="view-reports">
+      <div class="view-header">
+        <div><h1 class="view-title">Rapports</h1><p class="view-subtitle">Historique de votre activité par projet.</p></div>
+        <button class="btn-primary" id="export-report-btn">↓ Exporter Markdown</button>
+      </div>
+      <div class="report-filters glass-surface-light">
+        <select id="report-project-filter" class="glass-select"><option value="all">Tous les projets</option></select>
+        <select id="report-period" class="glass-select">
+          <option value="week">Cette semaine</option>
+          <option value="month">Ce mois</option>
+          <option value="all">Tout l'historique</option>
+        </select>
+        <button class="btn-secondary" id="generate-report-btn">Générer le rapport</button>
+      </div>
+      <div id="report-output" class="glass-card report-output">
+        <div class="empty-state"><div class="empty-icon">📊</div>Sélectionnez vos filtres et cliquez sur Générer.</div>
+      </div>
+    </section>
+
+    <section class="view" id="view-settings">
+      <div class="view-header">
+        <div><h1 class="view-title">Paramètres</h1><p class="view-subtitle">Personnalisez FlowMind selon vos besoins.</p></div>
+        <button class="btn-primary" id="save-settings-btn">💾 Sauvegarder</button>
+      </div>
+      <div class="settings-grid">
+        <div class="glass-card settings-card">
+          <div class="settings-section-title">🎨 Apparence</div>
+          <div class="setting-row"><label>Couleur d'accentuation</label><input type="color" id="cfg-accent-color" class="glass-color" value="#4f8eff"/></div>
+          <div class="setting-row"><label>Couleur de succès</label><input type="color" id="cfg-success-color" class="glass-color" value="#00d9a6"/></div>
+        </div>
+        <div class="glass-card settings-card">
+          <div class="settings-section-title">⏱ Minuteries</div>
+          <div class="setting-row"><label>Pomodoro par défaut (min)</label><input type="number" id="cfg-pomodoro" class="glass-input glass-input-sm" value="25" min="5" max="90"/></div>
+          <div class="setting-row"><label>Pause courte (min)</label><input type="number" id="cfg-break-short" class="glass-input glass-input-sm" value="5" min="1" max="30"/></div>
+          <div class="setting-row"><label>Son de fin</label><select id="cfg-sound" class="glass-select glass-select-sm"><option value="bell">Cloche</option><option value="chime">Carillon</option><option value="none">Aucun</option></select></div>
+        </div>
+        <div class="glass-card settings-card">
+          <div class="settings-section-title">🧠 Mode Focus</div>
+          <div class="setting-row"><label>Une tâche à la fois</label><label class="toggle"><input type="checkbox" id="cfg-one-task" checked/><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div>
+          <div class="setting-row"><label>Durée max micro-étapes (min)</label><input type="number" id="cfg-microstep-max" class="glass-input glass-input-sm" value="15" min="5" max="60"/></div>
+          <div class="setting-row"><label>Notifications bureau</label><label class="toggle"><input type="checkbox" id="cfg-notif" checked/><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div>
+        </div>
+        <div class="glass-card settings-card">
+          <div class="settings-section-title">🎮 Gamification</div>
+          <div class="setting-row"><label>XP par tâche</label><input type="number" id="cfg-xp-task" class="glass-input glass-input-sm" value="10" min="1"/></div>
+          <div class="setting-row"><label>XP par sous-tâche</label><input type="number" id="cfg-xp-subtask" class="glass-input glass-input-sm" value="5" min="1"/></div>
+          <div class="setting-row"><label>Animations de récompense</label><label class="toggle"><input type="checkbox" id="cfg-animations" checked/><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div>
+        </div>
+        <div class="glass-card settings-card">
+          <div class="settings-section-title">💾 Sauvegarde &amp; Restauration</div>
+          <p class="danger-desc" style="margin-bottom:12px">Exportez toutes vos données en JSON ou restaurez depuis une sauvegarde.</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn-secondary" id="export-backup-btn">
+              ↓ Exporter la sauvegarde (.json)
+            </button>
+            <label class="btn-secondary" style="cursor:pointer;text-align:center;justify-content:center">
+              ↑ Restaurer depuis une sauvegarde
+              <input type="file" id="import-backup-input" accept=".json" style="display:none" />
+            </label>
+          </div>
+          <div id="backup-status" style="font-size:11px;color:var(--mint);margin-top:8px;min-height:16px"></div>
+        </div>
+
+        <div class="glass-card settings-card settings-danger-card">
+          <div class="settings-section-title danger-title">⚠ Zone de danger</div>
+          <p class="danger-desc">Ces actions sont irréversibles.</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn-secondary" id="load-demo-btn">🎭 Charger les données de démo</button>
+            <button class="btn-danger" id="reset-all-btn">🗑 Réinitialiser toutes les données</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="js/storage.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/config.js"></script>
+<script src="js/gamification.js"></script>
+<script src="js/timer.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/tasks.js"></script>
+<script src="js/ical.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

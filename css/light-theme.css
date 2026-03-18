@@ -1,0 +1,373 @@
+/* FlowMind — LightTheme */
+
+/* ═══════════════════════════════════════════════════
+   FLOWMIND v9 — CORRECTIONS MODE CLAIR
+   Sidebar + Focus overlay + éléments glass
+═══════════════════════════════════════════════════ */
+
+/* ── SIDEBAR MODE CLAIR ──────────────────────────── */
+[data-theme="light"] .glass-sidebar {
+  background: rgba(240, 244, 255, 0.92);
+  border-right-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .sidebar-brand {
+  border-bottom-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .brand-name {
+  background: linear-gradient(135deg, #1a5fff, #0099cc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .brand-logo {
+  background: rgba(79, 142, 255, 0.12);
+  border-color: rgba(79, 142, 255, 0.3);
+}
+
+[data-theme="light"] .nav-item {
+  color: #4a5568;
+}
+
+[data-theme="light"] .nav-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1a202c;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .nav-item.active {
+  background: rgba(79, 142, 255, 0.12);
+  color: #1a5fff;
+  border-color: rgba(79, 142, 255, 0.3);
+}
+
+[data-theme="light"] .xp-track {
+  background: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .xp-level-badge {
+  background: rgba(79, 142, 255, 0.1);
+  border-color: rgba(79, 142, 255, 0.25);
+  color: #1a5fff;
+}
+
+[data-theme="light"] .xp-value,
+[data-theme="light"] .streak-widget {
+  color: #6b7280;
+}
+
+[data-theme="light"] .sidebar-footer {
+  border-top-color: rgba(0, 0, 0, 0.07);
+}
+
+/* ── TOPBAR MODE CLAIR ───────────────────────────── */
+[data-theme="light"] .glass-topbar {
+  background: rgba(240, 244, 255, 0.85);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .topbar-title { color: #1a202c; }
+
+[data-theme="light"] .glass-btn-icon {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #6b7280;
+}
+
+[data-theme="light"] .glass-btn-icon:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #1a202c;
+  border-color: rgba(79, 142, 255, 0.4);
+}
+
+/* ── FOCUS OVERLAY MODE CLAIR ────────────────────── */
+[data-theme="light"] .focus-overlay {
+  background: rgba(100, 130, 200, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+[data-theme="light"] .focus-panel {
+  background: rgba(240, 244, 255, 0.97);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 50, 0.2);
+}
+
+[data-theme="light"] .focus-topbar {
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .focus-task-title { color: #1a202c; }
+
+[data-theme="light"] .focus-project-tag {
+  background: rgba(79, 142, 255, 0.1);
+  color: #1a5fff;
+  border-color: rgba(79, 142, 255, 0.25);
+}
+
+[data-theme="light"] .focus-subtask-item {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #1a202c;
+}
+
+[data-theme="light"] .focus-subtask-item.active-sub {
+  background: rgba(79, 142, 255, 0.1);
+  border-color: rgba(79, 142, 255, 0.3);
+}
+
+[data-theme="light"] .ring-track {
+  stroke: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .ring-time { color: #1a202c; }
+[data-theme="light"] .ring-label { color: #6b7280; }
+
+[data-theme="light"] .btn-timer-reset {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #6b7280;
+}
+
+[data-theme="light"] .btn-timer-reset:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a202c;
+}
+
+[data-theme="light"] .duration-pill {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #6b7280;
+}
+
+[data-theme="light"] .duration-pill.active {
+  background: rgba(79, 142, 255, 0.12);
+  color: #1a5fff;
+  border-color: rgba(79, 142, 255, 0.3);
+}
+
+[data-theme="light"] .btn-focus-skip {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #4a5568;
+}
+
+[data-theme="light"] .focus-progress-label { color: #9ca3af; }
+
+/* ── GLASS CARDS MODE CLAIR ──────────────────────── */
+[data-theme="light"] .glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .glass-card::before {
+  background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, transparent 60%);
+}
+
+[data-theme="light"] .card-eyebrow { color: #9ca3af; }
+
+[data-theme="light"] .today-date { color: #1a202c; }
+
+[data-theme="light"] .stat-done  { background: rgba(0, 217, 166, 0.1); border-color: rgba(0, 217, 166, 0.2); }
+[data-theme="light"] .stat-pending { background: rgba(79, 142, 255, 0.1); border-color: rgba(79, 142, 255, 0.2); }
+[data-theme="light"] .stat-inprogress { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.2); }
+
+/* ── INPUTS MODE CLAIR ───────────────────────────── */
+[data-theme="light"] .glass-input,
+[data-theme="light"] .glass-select {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #1a202c;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+[data-theme="light"] .glass-input:focus {
+  background: #fff;
+  border-color: rgba(79, 142, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(79, 142, 255, 0.12);
+}
+
+[data-theme="light"] .glass-input::placeholder { color: #9ca3af; }
+
+[data-theme="light"] .glass-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+}
+
+/* ── TASK ITEMS MODE CLAIR ───────────────────────── */
+[data-theme="light"] .task-item {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .task-item:hover {
+  background: rgba(79, 142, 255, 0.05);
+  border-color: rgba(79, 142, 255, 0.3);
+}
+
+[data-theme="light"] .task-title { color: #1a202c; }
+[data-theme="light"] .task-tag   { background: rgba(0,0,0,0.05); color: #6b7280; }
+
+[data-theme="light"] .subtask-title { color: #4a5568; }
+
+/* ── DASH TASK ROWS MODE CLAIR ───────────────────── */
+[data-theme="light"] .dash-task-row {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .dash-task-row.row-inprogress {
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+[data-theme="light"] .dash-task-row.row-done {
+  background: rgba(0, 217, 166, 0.04);
+  border-color: rgba(0, 217, 166, 0.15);
+}
+
+[data-theme="light"] .dash-task-title { color: #1a202c; }
+[data-theme="light"] .dash-group-sep  { color: #9ca3af; border-top-color: rgba(0,0,0,0.06); }
+
+/* ── MODAL MODE CLAIR ────────────────────────────── */
+[data-theme="light"] .modal-overlay { background: rgba(100, 120, 160, 0.4); }
+
+[data-theme="light"] .modal.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .modal-header { border-bottom-color: rgba(0,0,0,0.07); }
+[data-theme="light"] .modal-footer { border-top-color: rgba(0,0,0,0.07); }
+[data-theme="light"] .modal-header h3 { color: #1a202c; }
+
+/* ── SETTINGS MODE CLAIR ─────────────────────────── */
+[data-theme="light"] .settings-card { }
+[data-theme="light"] .settings-section-title { color: #6b7280; }
+[data-theme="light"] .setting-row { border-bottom-color: rgba(0,0,0,0.06); }
+[data-theme="light"] .setting-row > label:first-child { color: #4a5568; }
+[data-theme="light"] .danger-desc { color: #9ca3af; }
+
+/* ── BOUTONS MODE CLAIR ──────────────────────────── */
+[data-theme="light"] .btn-secondary {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #4a5568;
+}
+
+[data-theme="light"] .btn-secondary:hover {
+  background: #fff;
+  color: #1a202c;
+  border-color: rgba(79, 142, 255, 0.4);
+}
+
+/* ── TOGGLE MODE CLAIR ───────────────────────────── */
+[data-theme="light"] .toggle-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .toggle-thumb { background: #9ca3af; }
+
+/* ── DIVERS MODE CLAIR ───────────────────────────── */
+[data-theme="light"] .empty-state { color: #9ca3af; }
+[data-theme="light"] .view-title  { color: #1a202c; }
+[data-theme="light"] .view-subtitle { color: #6b7280; }
+
+[data-theme="light"] .project-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .project-name { color: #1a202c; }
+[data-theme="light"] .project-stats { color: #9ca3af; }
+
+[data-theme="light"] .sync-card-title { color: #1a202c; }
+[data-theme="light"] .sync-card-desc  { color: #6b7280; }
+[data-theme="light"] .sync-tip        { color: #9ca3af; background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.06); }
+
+[data-theme="light"] .focus-task-option {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .focus-task-option:hover {
+  background: rgba(79, 142, 255, 0.08);
+  border-color: rgba(79, 142, 255, 0.3);
+}
+
+[data-theme="light"] .fto-title { color: #1a202c; }
+[data-theme="light"] .fto-sub   { color: #9ca3af; }
+
+[data-theme="light"] .calendar-event {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .report-output {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+[data-theme="light"] .report-filters.glass-surface-light {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .report-task-row  { border-bottom-color: rgba(0,0,0,0.06); }
+[data-theme="light"] .report-task-name { color: #4a5568; }
+[data-theme="light"] .report-task-time { color: #9ca3af; }
+
+[data-theme="light"] .recent-done-item { border-bottom-color: rgba(0,0,0,0.06); color: #4a5568; }
+[data-theme="light"] .done-time        { color: #9ca3af; }
+
+[data-theme="light"] .next-task-card {
+  background: rgba(255,255,255,0.6);
+  border-color: rgba(0,0,0,0.07);
+}
+
+[data-theme="light"] .next-task-title { color: #1a202c; }
+[data-theme="light"] .next-task-meta  { color: #9ca3af; }
+
+/* ── BOUTONS STATUT SB MODE CLAIR ────────────────── */
+[data-theme="light"] .sb-btn {
+  background: rgba(0, 0, 0, 0.04);
+  color: #6b7280;
+}
+
+[data-theme="light"] .sb-inprogress { border-color: rgba(245,158,11,0.25); }
+[data-theme="light"] .sb-inprogress:hover,
+[data-theme="light"] .sb-inprogress.sb-active {
+  background: rgba(245,158,11,0.1);
+  color: #b45309;
+}
+
+[data-theme="light"] .sb-deferred { border-color: rgba(124,141,181,0.2); }
+[data-theme="light"] .sb-deferred:hover,
+[data-theme="light"] .sb-deferred.sb-active {
+  background: rgba(124,141,181,0.1);
+  color: #5b6f9a;
+}
+
+[data-theme="light"] .sb-done { border-color: rgba(0,217,166,0.25); }
+[data-theme="light"] .sb-done:hover,
+[data-theme="light"] .sb-done.sb-active {
+  background: rgba(0,217,166,0.1);
+  color: #047857;
+}
+
+/* ── AURORA MOINS INTENSE EN MODE CLAIR ──────────── */
+[data-theme="light"] .aurora-orb { opacity: 0.08; }
+
+/* ── RÉCOMPENSE MODE CLAIR ───────────────────────── */
+[data-theme="light"] .reward-overlay { background: rgba(200, 210, 240, 0.6); }
+[data-theme="light"] .reward-text    { color: #1a202c; }

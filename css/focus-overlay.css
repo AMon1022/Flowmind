@@ -1,0 +1,299 @@
+/* FlowMind — FocusOverlay */
+
+/* ── FOCUS OVERLAY ──────────────────────────────────────────────── */
+.focus-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.focus-panel {
+  background: radial-gradient(ellipse at center top, #0a1428 0%, #04060d 70%);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  width: 500px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+}
+
+.focus-overlay.hidden { display: none; }
+
+.focus-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.02);
+  flex-shrink: 0;
+  border-radius: 20px 20px 0 0;
+}
+
+.focus-mode-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+}
+
+.focus-mode-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  animation: focusDotPulse 2s ease-in-out infinite;
+}
+
+@keyframes focusDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+.focus-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 28px 24px;
+  width: 100%;
+}
+
+.focus-project-tag {
+  font-size: 11px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.focus-task-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-1);
+  text-align: center;
+  max-width: 580px;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.focus-subtask-area {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-width: 480px;
+  width: 100%;
+}
+
+.focus-subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.18s var(--ease);
+  backdrop-filter: blur(12px);
+}
+
+.focus-subtask-item.active-sub { border-color: var(--accent-border); background: var(--accent-dim); }
+.focus-subtask-item.done-sub { opacity: 0.35; }
+
+/* ── TIME TIMER RING ─────────────────────────────────────────────── */
+.timer-section { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+.time-timer-ring { position: relative; width: 220px; height: 220px; }
+
+.ring-svg { width: 220px; height: 220px; transform: rotate(-90deg); }
+
+.ring-track {
+  fill: none;
+  stroke: rgba(255,255,255,0.06);
+  stroke-width: 10;
+}
+
+.ring-progress {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+  filter: drop-shadow(0 0 10px var(--accent-glow));
+}
+
+.ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.ring-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 4px; }
+
+.timer-controls { display: flex; gap: 8px; }
+
+.btn-timer-start {
+  padding: 11px 24px;
+  background: linear-gradient(135deg, var(--accent), #6aabff);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  box-shadow: 0 4px 20px rgba(79,142,255,0.3);
+}
+
+.btn-timer-start:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(79,142,255,0.5); }
+
+.btn-timer-reset {
+  width: 44px; height: 44px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-3);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s var(--ease);
+  backdrop-filter: blur(8px);
+}
+
+.btn-timer-reset:hover { background: var(--glass-bg-2); color: var(--text-1); }
+
+.duration-pills { display: flex; gap: 6px; }
+
+.duration-pill {
+  padding: 5px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: all 0.15s var(--ease);
+}
+
+.duration-pill.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-border); }
+.duration-pill:hover:not(.active) { background: rgba(255,255,255,0.07); color: var(--text-2); }
+
+.focus-actions { display: flex; gap: 10px; }
+
+.btn-focus-done {
+  padding: 13px 26px;
+  background: linear-gradient(135deg, var(--success), #00b88d);
+  color: #000;
+  border: none;
+  border-radius: var(--r-md);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  box-shadow: 0 4px 20px var(--success-glow);
+}
+
+.btn-focus-done:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--success-glow); }
+
+.btn-focus-skip {
+  padding: 13px 20px;
+  background: var(--glass-bg);
+  color: var(--text-2);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.18s var(--ease);
+  backdrop-filter: blur(8px);
+}
+
+.btn-focus-skip:hover { background: var(--glass-bg-2); color: var(--text-1); }
+
+.focus-progress-section { width: 100%; max-width: 380px; }
+.focus-progress-label { font-size: 10px; color: var(--text-3); text-align: center; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+
+/* ── REWARD OVERLAY ─────────────────────────────────────────────── */
+.reward-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4,6,13,0.7);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.reward-overlay.hidden { display: none; }
+
+.reward-burst {
+  text-align: center;
+  animation: rewardPop 0.4s var(--ease-spring);
+  position: relative;
+}
+
+@keyframes rewardPop {
+  from { opacity: 0; transform: scale(0.5) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.reward-emoji { font-size: 76px; display: block; animation: rewardBounce 0.6s var(--ease-spring); }
+
+@keyframes rewardBounce {
+  0%, 100% { transform: scale(1) rotate(0); }
+  30% { transform: scale(1.25) rotate(-5deg); }
+  60% { transform: scale(1.1) rotate(3deg); }
+}
+
+.reward-text { font-size: 26px; font-weight: 700; color: var(--text-1); margin: 8px 0 4px; letter-spacing: -0.02em; text-shadow: 0 0 40px var(--success-glow); }
+.reward-xp { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--success); font-weight: 600; }
+
+.reward-particles { position: absolute; inset: -50px; pointer-events: none; }
+.particle {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  animation: particleFly 0.9s ease-out forwards;
+}
+
+@keyframes particleFly {
+  from { opacity: 1; transform: translate(0, 0) scale(1); }
+  to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2); }
+}

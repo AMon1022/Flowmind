@@ -1,0 +1,84 @@
+/* FlowMind — Tokens */
+
+/* ═══════════════════════════════════════════════════════════════════
+   FLOWMIND v2 — Deep Space Glass
+   Glassmorphism · Aurora · Navy Dark · DM Sans
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── DESIGN TOKENS ──────────────────────────────────────────────── */
+:root {
+  /* Fond */
+  --bg-void:      #04060d;
+  --bg-deep:      #070b14;
+  --bg-base:      #0a0f1c;
+  --bg-layer:     #0e1525;
+
+  /* Glass */
+  --glass-bg:     rgba(255,255,255,0.04);
+  --glass-bg-2:   rgba(255,255,255,0.07);
+  --glass-border: rgba(255,255,255,0.09);
+  --glass-inset:  rgba(255,255,255,0.06);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+
+  /* Accents */
+  --accent:       #4f8eff;
+  --accent-2:     #00d9a6;
+  --accent-dim:   rgba(79,142,255,0.12);
+  --accent-glow:  rgba(79,142,255,0.35);
+  --accent-border:rgba(79,142,255,0.3);
+
+  --success:      #00d9a6;
+  --success-dim:  rgba(0,217,166,0.12);
+  --success-glow: rgba(0,217,166,0.4);
+
+  --warning:      #f59e0b;
+  --warning-dim:  rgba(245,158,11,0.12);
+
+  --danger:       #f43f5e;
+  --danger-dim:   rgba(244,63,94,0.12);
+
+  /* Text */
+  --text-1:  #eef2ff;
+  --text-2:  #94a3c0;
+  --text-3:  #4e6080;
+  --text-4:  #2a3a55;
+
+  /* Radius */
+  --r-sm:  8px;
+  --r-md:  14px;
+  --r-lg:  20px;
+  --r-xl:  28px;
+
+  /* Layout */
+  --sidebar-w: 238px;
+  --topbar-h:  58px;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Alias tokens */
+  --t1: var(--text-1);
+  --t2: var(--text-2);
+  --t3: var(--text-3);
+  --t4: var(--text-4);
+  --amber: var(--warning);
+  --amber-d: var(--warning-dim);
+  --mint: var(--success);
+  --mint-d: var(--success-dim);
+}
+
+[data-theme="light"] {
+  --bg-void:      #dde3f2;
+  --bg-deep:      #e8edf8;
+  --bg-base:      #f0f4ff;
+  --bg-layer:     #f8faff;
+  --glass-bg:     rgba(255,255,255,0.6);
+  --glass-bg-2:   rgba(255,255,255,0.8);
+  --glass-border: rgba(0,0,0,0.08);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
+  --text-1:  #0d1220;
+  --text-2:  #374264;
+  --text-3:  #7b8db0;
+  --text-4:  #b0bad0;
+}

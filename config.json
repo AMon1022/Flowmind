@@ -1,0 +1,31 @@
+{
+  "_comment": "Fichier de configuration par défaut de FlowMind. Les valeurs actives sont stockées dans le localStorage du navigateur et modifiables depuis l'interface Paramètres.",
+  "version": "1.0.0",
+  "defaults": {
+    "theme": "dark",
+    "accentColor": "#00d4ff",
+    "successColor": "#10b981",
+    "pomodoroMin": 25,
+    "breakShortMin": 5,
+    "sound": "bell",
+    "oneTaskFocus": true,
+    "microstepMaxMin": 15,
+    "notifications": true,
+    "xpPerTask": 10,
+    "xpPerSubtask": 5,
+    "animations": true
+  },
+  "priorities": {
+    "order": ["high", "medium", "low", "none"],
+    "labels": {
+      "high": "Haute",
+      "medium": "Moyenne",
+      "low": "Faible",
+      "none": "Sans priorité"
+    }
+  },
+  "gamification": {
+    "levelThresholds": [0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000],
+    "streakBonusMultiplier": 1.5
+  }
+}
