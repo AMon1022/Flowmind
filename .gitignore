@@ -29,3 +29,6 @@ npm-debug.log*
 
 # Données utilisateur (sync Nextcloud — ne pas commiter)
 flowmind-data.json
+
+# Documents locaux — ne pas synchroniser avec GitHub
+Documents/
